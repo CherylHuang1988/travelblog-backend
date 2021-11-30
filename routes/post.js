@@ -20,4 +20,19 @@ router.post("/create", isLoggedIn, upload.single("postPicture"), (req, res) => {
     });
 });
 
+router.get("/:postId", (req, res) => {
+  const { postId } = req.params;
+
+  BlogPost.findById(postId)
+    .populate("owner")
+    .then((singlePost) => {
+      if (!singlePost) {
+        return res
+          .status(404)
+          .json({ errorMessage: `Post wiht the id ${postId} does not exist` });
+      }
+      res.json({ post: singlePost });
+    });
+});
+
 module.exports = router;
