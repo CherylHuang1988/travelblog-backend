@@ -5,6 +5,12 @@ const BlogPost = require("../models/Post.model");
 
 const router = Router();
 
+router.get("/", isLoggedIn, (req, res) => {
+  BlogPost.find({}).then((allPosts) => {
+    res.json({ post: allPosts });
+  });
+});
+
 router.post("/create", isLoggedIn, upload.single("postPicture"), (req, res) => {
   BlogPost.create({
     owner: req.user._id,
