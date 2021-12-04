@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const authRoutes = require("./auth");
 const postRouter = require("./post");
+const userRoutes = require("./user");
+
 /*const upload = require("..middleware/cloudinary");*/
 const User = require("../models/User.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
@@ -12,5 +14,6 @@ router.get("/", (req, res, next) => {
 
 router.use("/auth", authRoutes);
 router.use("/post", postRouter);
+router.use("/user", userRoutes);
 
 module.exports = router;
