@@ -41,4 +41,12 @@ router.get("/:postId", (req, res) => {
     });
 });
 
+router.delete("/:postId/delete", isLoggedIn, (req, res) => {
+  const { postId } = req.params;
+
+  BlogPost.findByIdAndDelete(postId).then((deletePost) => {
+    res.json({ success: true });
+  });
+});
+
 module.exports = router;
