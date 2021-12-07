@@ -50,4 +50,12 @@ router.post(
   }
 );
 
+router.delete("/:userId/delete", isLoggedIn, (req, res) => {
+  const { userId } = req.params;
+
+  User.findByIdAndDelete(userId).then((deleteUser) => {
+    res.json({ success: true });
+  });
+});
+
 module.exports = router;
