@@ -50,6 +50,34 @@ router.post(
   }
 );
 
+router.patch(
+  "/:postId/editPostCon",
+  isLoggedIn,
+  upload.single("postContent"),
+  (req, res) => {
+    const { postId } = req.params;
+
+    BlogPost.findByIdAndUpdate(
+      postId,
+      { content: req.body.content },
+      { new: true }
+    )
+      .then((updatePostCon) => {
+        res.json({
+          success: true,
+          postContent: updatePostCon.postContent,
+        });
+      })
+      .catch((err) => {
+        console.error("HELLO? ", err);
+        res.status(500).json({
+          success: false,
+          message: "Have a err in the server!",
+        });
+      });
+  }
+);
+
 router.get("/:postId", (req, res) => {
   const { postId } = req.params;
 
