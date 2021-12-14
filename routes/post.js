@@ -26,6 +26,58 @@ router.post("/create", isLoggedIn, upload.single("postPicture"), (req, res) => {
     });
 });
 
+router.post(
+  "/:postId/editPostPic",
+  isLoggedIn,
+  upload.single("postPicture"),
+  (req, res) => {
+    const { postId } = req.params;
+    console.log(req.file);
+    BlogPost.findByIdAndUpdate(postId, { image: req.file.path }, { new: true })
+      .then((updatePostPic) => {
+        res.json({
+          success: true,
+          postPicture: updatePostPic.postPicture,
+        });
+      })
+      .catch((err) => {
+        console.error("HELLO? ", err);
+        res.status(500).json({
+          success: false,
+          message: "Have a err in the server!",
+        });
+      });
+  }
+);
+
+router.patch(
+  "/:postId/editPostCon",
+  isLoggedIn,
+  upload.single("postContent"),
+  (req, res) => {
+    const { postId } = req.params;
+
+    BlogPost.findByIdAndUpdate(
+      postId,
+      { content: req.body.content },
+      { new: true }
+    )
+      .then((updatePostCon) => {
+        res.json({
+          success: true,
+          postContent: updatePostCon.postContent,
+        });
+      })
+      .catch((err) => {
+        console.error("HELLO? ", err);
+        res.status(500).json({
+          success: false,
+          message: "Have a err in the server!",
+        });
+      });
+  }
+);
+
 router.get("/:postId", (req, res) => {
   const { postId } = req.params;
 
